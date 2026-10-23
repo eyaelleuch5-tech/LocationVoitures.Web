@@ -1,0 +1,36 @@
+﻿@model LocationVoitures.Web.Models.CategoryVoiture
+
+@{
+    ViewData["Title"] = "Supprimer la Catégorie #" + Model.Id;
+}
+
+<div class="container py-4" style="max-width: 650px;">
+    <div class="card border-danger shadow-sm">
+        <div class="card-header bg-danger text-white py-3">
+            <h4 class="card-title mb-0">⚠️ Confirmation de suppression</h4>
+        </div>
+        <div class="card-body p-4">
+            <p class="text-danger fw-bold fs-5 mb-3">Êtes-vous sûr de vouloir supprimer définitivement cette catégorie ?</p>
+            <p class="text-muted small">Cette action supprimera l'enregistrement de la base de données SQL Server ET effacera le fichier image physique correspondant sur le disque.</p>
+
+            <div class="d-flex gap-3 align-items-center p-3 bg-light rounded border mb-4">
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                {
+                    <img src="@Model.ImageUrl" alt="@Model.Libelle" class="rounded object-fit-cover shadow-sm" style="width: 100px; height: 70px;" />
+                }
+                <div>
+                    <h5 class="mb-1 text-dark">@Model.Libelle</h5>
+                    <p class="text-muted mb-0 small">ID #@Model.Id — @(Model.Description ?? "Sans description")</p>
+                </div>
+            </div>
+
+            <form asp-action="Delete" method="post">
+                <input type="hidden" asp-for="Id" />
+                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Annuler</a>
+                    <button type="submit" class="btn btn-danger px-4">🗑️ Confirmer la suppression</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

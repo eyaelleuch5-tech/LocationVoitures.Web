@@ -1,0 +1,63 @@
+﻿@model LocationVoitures.Web.Models.CategoryVoiture
+
+@{
+    ViewData["Title"] = "Modifier la Catégorie #" + Model.Id;
+}
+
+<div class="container py-4" style="max-width: 720px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-warning text-dark py-3">
+            <h4 class="card-title mb-0">✏️ Modifier la catégorie : @Model.Libelle (#@Model.Id)</h4>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                <!-- Clé primaire et ancienne URL conservées en champs cachés -->
+                <input type="hidden" asp-for="Id" />
+                <input type="hidden" asp-for="ImageUrl" />
+
+                <div class="mb-3">
+                    <label asp-for="Libelle" class="form-label fw-bold"></label>
+                    <input asp-for="Libelle" class="form-control" />
+                    <span asp-validation-for="Libelle" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label fw-bold"></label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label fw-bold">Photo actuelle :</label>
+                    <div class="mb-2">
+                        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                        {
+                            <img src="@Model.ImageUrl" alt="@Model.Libelle" class="img-thumbnail rounded shadow-sm" style="max-height: 140px;" />
+                            <small class="d-block text-muted mt-1">Chemin : @Model.ImageUrl</small>
+                        }
+                        else
+                        {
+                            <div class="alert alert-light border py-2 text-muted small">Aucune photo enregistrée pour le moment.</div>
+                        }
+                    </div>
+
+                    <label asp-for="ImageFile" class="form-label fw-bold mt-2">Remplacer par une nouvelle photo (Optionnel) :</label>
+                    <input asp-for="ImageFile" type="file" class="form-control" accept="image/*" />
+                    <span asp-validation-for="ImageFile" class="text-danger small"></span>
+                    <small class="text-muted d-block mt-1">Laissez vide si vous souhaitez conserver l'image actuelle.</small>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center pt-2 border-top">
+                    <a asp-action="Index" class="btn btn-outline-secondary">Retour à la liste</a>
+                    <button type="submit" class="btn btn-warning px-4">Mettre à jour</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
